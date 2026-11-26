@@ -1,0 +1,22 @@
+function(ckit_add_test name source)
+  add_executable(${name} ${source})
+  target_link_libraries(${name} PRIVATE ckit::ckit)
+  target_include_directories(${name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(NAME ${name} COMMAND ${name})
+  set_tests_properties(${name} PROPERTIES
+    TIMEOUT 300
+    ENVIRONMENT "ASAN_OPTIONS=detect_leaks=0:abort_on_error=1;TSAN_OPTIONS=halt_on_error=0:second_deadlock_stack=1")
+endfunction()
+
+ckit_add_test(ckit_test_ccia        ccia/test_ccia.cpp)
+ckit_add_test(ckit_test_type_erasure type_erasure/test_type_erasure.cpp)
+ckit_add_test(ckit_test_pmr         pmr/test_pmr.cpp)
+ckit_add_test(ckit_test_spsc        spsc/test_spsc.cpp)
+ckit_add_test(ckit_test_mpmc        mpmc/test_mpmc.cpp)
+ckit_add_test(ckit_test_chase_lev   chase_lev/test_chase_lev.cpp)
+ckit_add_test(ckit_test_ebr         reclamation/test_ebr.cpp)
+ckit_add_test(ckit_test_hp          reclamation/test_hp.cpp)
+ckit_add_test(ckit_test_hp_v2       reclamation/test_hp_v2.cpp)
+ckit_add_test(ckit_test_qsbr_xenium reclamation/test_qsbr_xenium.cpp)
+ckit_add_test(ckit_test_qsbr_liburcu reclamation/test_qsbr_liburcu.cpp)
+ckit_add_test(ckit_test_executor    threadpool/test_executor.cpp)
